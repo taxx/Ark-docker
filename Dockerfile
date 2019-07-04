@@ -18,7 +18,7 @@ ENV UPDATEONSTART 1
 # if the server is backup when start with docker start
 ENV BACKUPONSTART 1
 #  Tag on github for ark server tools  https://github.com/FezVrasta/ark-server-tools
-ENV GIT_TAG v1.6.47
+#ENV GIT_TAG v1.6.47 / not used
 # Server PORT (you can't remap with docker, it doesn't work)
 ENV SERVERPORT 27015
 # Steam port (you can't remap with docker, it doesn't work)
@@ -34,7 +34,7 @@ ENV GID 1000
 
 # Install dependencies 
 RUN apt-get update &&\ 
-    apt-get install -y curl lib32gcc1 lsof git
+    apt-get install -y curl lib32gcc1 lsof git sudo
 
 # Enable passwordless sudo for users under the "sudo" group
 RUN sed -i.bkp -e \
@@ -56,11 +56,15 @@ COPY user.sh /home/steam/user.sh
 COPY crontab /home/steam/crontab
 COPY arkmanager-user.cfg /home/steam/arkmanager.cfg
 
+# Switch from windows to linux file line endings
+RUN sed -i -e 's/\r$//' /home/steam/*.sh
+RUN sed -i -e 's/\r$//' /home/steam/crontab
+RUN sed -i -e 's/\r$//' /home/steam/*.cfg
+
 RUN touch /root/.bash_profile
 RUN chmod 777 /home/steam/run.sh
 RUN chmod 777 /home/steam/user.sh
 RUN mkdir  /ark
-
 
 # We use the git method, because api github has a limit ;)
 RUN  git clone https://github.com/FezVrasta/ark-server-tools.git /home/steam/ark-server-tools
@@ -79,6 +83,10 @@ COPY arkmanager-system.cfg /etc/arkmanager/arkmanager.cfg
 
 # Define default config file in /etc/arkmanager
 COPY instance.cfg /etc/arkmanager/instances/main.cfg
+
+# Switch from windows to linux file line endings
+RUN sed -i -e 's/\r$//' /etc/arkmanager/*.cfg
+RUN sed -i -e 's/\r$//' /etc/arkmanager/instances/*.cfg
 
 RUN chown steam -R /ark && chmod 755 -R /ark
 
@@ -105,3 +113,4 @@ WORKDIR /ark
 
 # Update game launch the game.
 ENTRYPOINT ["/home/steam/user.sh"]
+#ENTRYPOINT ["/bin/bash"]

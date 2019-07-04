@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 echo "###########################################################################"
 echo "# Ark Server - " `date`
 echo "# UID $UID - GID $GID"

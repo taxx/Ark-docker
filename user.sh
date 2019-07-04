@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Change the UID if needed
 if [ ! "$(id -u steam)" -eq "$UID" ]; then 

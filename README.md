@@ -164,4 +164,7 @@ GID of the user used. Owner of the volume /ark
     - Added support for automatically updating on restart
     - Show a spinner when updating
   - Add UID & GID to set the uid & gid of the user used in the container (and permissions on the volume /ark)
-
++ 1.4 :
+  - Update to ubuntu 19.04
+  - Update to use latest ark-server tools when image is built
+  - Tweaks for files tainted by Windows file endings

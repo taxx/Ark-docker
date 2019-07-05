@@ -26,8 +26,11 @@ cd /ark
 
 # Add a template directory to store the last version of config file
 [ ! -d /ark/template ] && mkdir /ark/template
+# We overwrite the template file each time
+cp /home/steam/arkmanager.cfg /ark/template/arkmanager.cfg
+cp /home/steam/crontab /ark/template/crontab
 # Creating directory tree && symbolic link
-[ ! -f /ark/arkmanager.cfg ] && cp /home/steam/arkmanager.cfg /ark/arkmanager.cfg
+[ ! -f /ark/arkmanager.cfg ] && cp /ark/template/arkmanager.cfg /ark/arkmanager.cfg
 [ ! -d /ark/log ] && mkdir /ark/log
 [ ! -d /ark/backup ] && mkdir /ark/backup
 [ ! -d /ark/staging ] && mkdir /ark/staging

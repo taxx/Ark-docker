@@ -21,16 +21,11 @@ function stop {
 	exit
 }
 
-
-
 # Change working directory to /ark to allow relative path
 cd /ark
 
 # Add a template directory to store the last version of config file
 [ ! -d /ark/template ] && mkdir /ark/template
-# We overwrite the template file each time
-cp /home/steam/arkmanager.cfg /ark/template/arkmanager.cfg
-cp /home/steam/crontab /ark/template/crontab
 # Creating directory tree && symbolic link
 [ ! -f /ark/arkmanager.cfg ] && cp /home/steam/arkmanager.cfg /ark/arkmanager.cfg
 [ ! -d /ark/log ] && mkdir /ark/log
@@ -39,8 +34,6 @@ cp /home/steam/crontab /ark/template/crontab
 [ ! -L /ark/Game.ini ] && ln -s server/ShooterGame/Saved/Config/LinuxServer/Game.ini Game.ini
 [ ! -L /ark/GameUserSettings.ini ] && ln -s server/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini GameUserSettings.ini
 [ ! -f /ark/crontab ] && cp /ark/template/crontab /ark/crontab
-
-
 
 if [ ! -d /ark/server  ] || [ ! -f /ark/server/version.txt ];then 
 	echo "No game files found. Installing..."
@@ -51,13 +44,11 @@ if [ ! -d /ark/server  ] || [ ! -f /ark/server/version.txt ];then
 	arkmanager install
 	# Create mod dir
 else
-
 	if [ ${BACKUPONSTART} -eq 1 ] && [ "$(ls -A server/ShooterGame/Saved/SavedArks/)" ]; then 
 		echo "[Backup]"
 		arkmanager backup
 	fi
 fi
-
 
 # If there is uncommented line in the file
 CRONNUMBER=`grep -v "^#" /ark/crontab | wc -l`

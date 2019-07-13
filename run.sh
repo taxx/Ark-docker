@@ -72,7 +72,6 @@ else
 	arkmanager start
 fi
 
-
 # Stop server in case of signal INT or TERM
 echo "Waiting..."
 trap stop INT

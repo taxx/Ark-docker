@@ -21,6 +21,8 @@ ENV BACKUPONSTART 1
 #ENV GIT_TAG v1.6.47 / not used
 # Server PORT (you can't remap with docker, it doesn't work)
 ENV SERVERPORT 27015
+# RCON PORT
+ENV RCONPORT 32330
 # Steam port (you can't remap with docker, it doesn't work)
 ENV STEAMPORT 7778
 # if the server should backup after stopping
@@ -33,8 +35,8 @@ ENV UID 1000
 ENV GID 1000
 
 # Install dependencies 
-RUN apt-get update &&\ 
-    apt-get install -y curl lib32gcc1 lsof git sudo
+RUN apt-get update && \ 
+    apt-get install -y curl lib32gcc1 lsof git sudo cron
 
 # Enable passwordless sudo for users under the "sudo" group
 RUN sed -i.bkp -e \
@@ -57,14 +59,14 @@ COPY crontab /home/steam/crontab
 COPY arkmanager-user.cfg /home/steam/arkmanager.cfg
 
 # Switch from windows to linux file line endings
-RUN sed -i -e 's/\r$//' /home/steam/*.sh
-RUN sed -i -e 's/\r$//' /home/steam/crontab
-RUN sed -i -e 's/\r$//' /home/steam/*.cfg
+RUN sed -i -e 's/\r$//' /home/steam/*.sh && \
+    sed -i -e 's/\r$//' /home/steam/crontab && \
+    sed -i -e 's/\r$//' /home/steam/*.cfg
 
-RUN touch /root/.bash_profile
-RUN chmod 777 /home/steam/run.sh
-RUN chmod 777 /home/steam/user.sh
-RUN mkdir  /ark
+RUN touch /root/.bash_profile & \
+    chmod 777 /home/steam/run.sh & \
+    chmod 777 /home/steam/user.sh & \
+    mkdir /ark
 
 # We use the git method, because api github has a limit ;)
 RUN  git clone https://github.com/FezVrasta/ark-server-tools.git /home/steam/ark-server-tools
@@ -102,7 +104,7 @@ RUN mkdir /home/steam/steamcmd &&\
 # We can't download from docker hub anymore -_-
 #RUN /home/steam/steamcmd/steamcmd.sh +login anonymous +quit
 
-EXPOSE ${STEAMPORT} 32330 ${SERVERPORT}
+EXPOSE ${STEAMPORT} ${RCONPORT} ${SERVERPORT}
 # Add UDP
 EXPOSE ${STEAMPORT}/udp ${SERVERPORT}/udp
 

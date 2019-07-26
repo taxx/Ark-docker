@@ -21,7 +21,7 @@ ENV BACKUPONSTART 1
 #ENV GIT_TAG v1.6.47 / not used
 # Server PORT (you can't remap with docker, it doesn't work)
 ENV SERVERPORT 27015
-# RCON PORT
+# RCON PORT (you can't remap with docker, it doesn't work)
 ENV RCONPORT 32330
 # Steam port (you can't remap with docker, it doesn't work)
 ENV STEAMPORT 7778

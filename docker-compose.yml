@@ -11,6 +11,9 @@ ark:
     - TZ=Europe/Paris
     - GID=1000
     - UID=1000
+    - STEAMPORT=7778
+    - SERVERPORT=27015
+    - RCONPORT=32330   
   volumes:
     - /my/path/to/ark:/ark
   ports:
